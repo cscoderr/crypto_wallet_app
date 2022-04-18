@@ -1,0 +1,33 @@
+name: crypto_wallet
+description: A Very Good Project created by Very Good CLI.
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.16.0 <3.0.0"
+
+dependencies:
+  bip39: ^1.0.6
+  bloc: ^8.0.3
+  cs_ui:
+    path: packages/cs_ui
+  ed25519_hd_key: ^2.2.0
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.0.1
+  # flutter_localizations:
+  #   sdk: flutter
+  hex: ^0.2.0
+  intl: ^0.17.0
+  web3dart: ^2.3.5
+
+dev_dependencies:
+  bloc_test: ^9.0.3
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  very_good_analysis: ^2.4.0
+
+flutter:
+  uses-material-design: true
+  generate: true
