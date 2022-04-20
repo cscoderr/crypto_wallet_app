@@ -36,6 +36,7 @@ class SolidButton extends StatelessWidget {
           primary: color,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius),
+            side: border,
           ),
         ),
         child: Padding(

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class CsTextStyle {
   static const TextStyle _textStyle = TextStyle(
-    color: CsColors.primaryText,
+    color: CsColors.white,
     fontWeight: CsFontWeight.regular,
   );
 

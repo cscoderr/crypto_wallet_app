@@ -12,6 +12,7 @@ dependencies:
   cs_ui:
     path: packages/cs_ui
   ed25519_hd_key: ^2.2.0
+  equatable: ^2.0.3
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1

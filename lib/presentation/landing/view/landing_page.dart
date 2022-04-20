@@ -19,7 +19,7 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     super.initState();
     timer = Timer(const Duration(seconds: 2), () {
-      context.replace(WalletPages.auth);
+      context.replace(WalletPages.authLanding);
     });
   }
 
