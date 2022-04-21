@@ -28,6 +28,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   flutter_svg: ^0.23.0+1
   hex: ^0.2.0
+  http: ^0.13.4
   intl: ^0.17.0
   pin_code_fields: ^7.4.0
   web3dart: ^2.3.5
@@ -46,3 +47,4 @@ flutter:
   assets:
     - assets/images/
     - assets/images/svg/
+    - assets/abi/abi.json

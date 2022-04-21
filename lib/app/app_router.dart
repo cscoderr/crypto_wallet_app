@@ -49,7 +49,7 @@ class AppRouter {
         );
       case WalletPages.home:
         return platformPageRoute<dynamic>(
-          builder: (_) => const HomePage(),
+          builder: (_) => HomePage(),
         );
       case WalletPages.confirmSeedPhrase:
         return platformPageRoute<dynamic>(

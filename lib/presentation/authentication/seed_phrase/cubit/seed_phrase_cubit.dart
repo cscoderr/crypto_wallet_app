@@ -79,6 +79,6 @@ class SeedPhraseCubit extends Cubit<SeedPhraseState> {
 }
 //shaft outdoor kingdom romance priority tooth delay harsh walk candy curious viable
 
-extension on String {
+extension StringX on String {
   List<String> get toList => split(' ').toList();
 }
