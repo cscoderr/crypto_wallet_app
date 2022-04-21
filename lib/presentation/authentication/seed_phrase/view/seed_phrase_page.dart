@@ -1,6 +1,7 @@
 import 'package:crypto_wallet/app/app_router.dart';
-import 'package:crypto_wallet/presentation/authentication/seed_phrase/cubit/seed_phrase_cubit.dart';
+import 'package:crypto_wallet/presentation/authentication/seed_phrase/seed_phrase.dart';
 import 'package:cs_ui/cs_ui.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,83 +25,137 @@ class _SeedPhrasePageState extends State<SeedPhrasePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: CsColors.background,
+        centerTitle: true,
+        title: Text(
+          'Your Recovery Phrase',
+          style: CsTextStyle.overline.copyWith(
+            fontSize: 20,
+            fontWeight: CsFontWeight.bold,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () => context.back(),
+          icon: const Icon(
+            Icons.navigate_before,
+            color: CsColors.black,
+            size: 40,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 20)
+              .add(const EdgeInsets.only(bottom: 20)),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Secret Recovery Phrase',
-                style: CsTextStyle.headline1.copyWith(
-                  fontSize: 45,
-                ),
-              ),
               SizedBox(height: context.minBlockVertical * 4),
               Text(
-                '''Your Secret Recovery Phrase makes it easy to back up and restore your account.''',
+                '''Write down these 12 words in the correct order and keep them in a safe place''',
                 style: CsTextStyle.overline.copyWith(),
               ),
-              SizedBox(height: context.minBlockVertical),
-              Text(
-                '''WARNING: Never disclose your Secret Recovery Phrase. Anyone with this phrase can take your Ether forever.''',
-                style: CsTextStyle.overline.copyWith(),
-              ),
-              SizedBox(height: context.minBlockVertical * 10),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  border: Border.all(color: CsColors.grey),
-                  borderRadius: BorderRadius.circular(10),
+              SizedBox(height: context.minBlockVertical * 3),
+              DottedBorder(
+                borderType: BorderType.RRect,
+                dashPattern: const [10, 5],
+                color: CsColors.black.withOpacity(0.4),
+                radius: const Radius.circular(10),
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(20),
+                    child: BlocBuilder<SeedPhraseCubit, SeedPhraseState>(
+                      builder: (context, state) {
+                        return Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: state.mnemonics
+                              .asMap()
+                              .map(
+                                (key, text) => MapEntry(
+                                  key,
+                                  MnemonicsChip(
+                                    text: text,
+                                    index: key + 1,
+                                  ),
+                                ),
+                              )
+                              .values
+                              .toList(),
+                        );
+                      },
+                    ),
+                  ),
                 ),
-                child: BlocBuilder<SeedPhraseCubit, SeedPhraseState>(
-                  builder: (context, state) {
-                    return Wrap(
-                      spacing: 10,
-                      children: List.generate(
-                        state.mnemonics.length,
-                        (index) => Text(
-                          state.mnemonics[index],
-                          style: CsTextStyle.overline.copyWith(
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
               ),
-              SizedBox(height: context.minBlockVertical * 4),
+              SizedBox(height: context.minBlockVertical * 2),
               BlocBuilder<SeedPhraseCubit, SeedPhraseState>(
                 builder: (context, state) {
-                  return Row(
-                    children: [
-                      Expanded(
-                        child: SolidButton(
-                          text: 'Copy',
-                          color: CsColors.background,
-                          onPressed: () {
-                            Clipboard.setData(
-                              ClipboardData(
-                                text: state.mnemonics.join(' '),
-                              ),
-                            );
-                            context.showSuccessMessage(
-                              'Phrase copied successfully',
-                            );
-                          },
+                  //autumn horn own build mandate course fee maximum arrange pipe narrow tonight
+                  return GestureDetector(
+                    onTap: () {
+                      Clipboard.setData(
+                        ClipboardData(text: state.mnemonics.join(' ')),
+                      );
+                      context.showSuccessMessage('Copied Successfully');
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.copy,
+                          color: CsColors.primary,
                         ),
-                      ),
-                      SizedBox(width: context.minBlockHorizontal * 5),
-                      Expanded(
-                        child: SolidButton(
-                          text: 'Next',
-                          onPressed: () =>
-                              context.push(WalletPages.confirmSeedPhrase),
+                        const SizedBox(width: 5),
+                        Text(
+                          'Copy to clipboard',
+                          style: CsTextStyle.overline.copyWith(
+                            color: CsColors.primary,
+                            fontWeight: CsFontWeight.semiBold,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   );
+                },
+              ),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.redAccent.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.dangerous_outlined,
+                      color: Colors.red,
+                    ),
+                    SizedBox(width: context.minBlockHorizontal * 2),
+                    Expanded(
+                      child: Text(
+                        '''Keep your recovery phrase in a safe place and don't share it with anyone!''',
+                        style: CsTextStyle.overline.copyWith(
+                          color: Colors.red,
+                          fontWeight: CsFontWeight.semiBold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: context.minBlockVertical * 3),
+              SolidButton(
+                text: 'Continue',
+                onPressed: () {
+                  context.read<SeedPhraseCubit>().clearSelectedMnemonics();
+
+                  context.push(WalletPages.confirmSeedPhrase);
                 },
               ),
             ],

@@ -133,7 +133,7 @@ class AppBottomNavigationBarItem {
     this.customIcon,
     String? label,
     this.icon,
-    this.useCustomIcon = true,
+    this.useCustomIcon = false,
   }) : label = label ?? '';
 
   final String? customIcon;

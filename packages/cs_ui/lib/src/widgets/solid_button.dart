@@ -7,12 +7,12 @@ class SolidButton extends StatelessWidget {
     this.text,
     this.onPressed,
     this.color = CsColors.primary,
-    this.textColor = CsColors.white,
+    this.textColor = CsColors.black,
     this.textSize = 16.0,
     this.elevation = 0.0,
-    this.radius = 12,
-    this.padding = const EdgeInsets.all(15),
-    this.border = const BorderSide(color: CsColors.primary),
+    this.radius = 50,
+    this.padding = const EdgeInsets.all(20),
+    this.border = const BorderSide(color: Colors.transparent),
   }) : super(key: key);
 
   final String? text;
@@ -42,11 +42,11 @@ class SolidButton extends StatelessWidget {
         child: Padding(
           padding: padding,
           child: Text(
-            text!,
-            style: CsTextStyle.caption.copyWith(
+            text!.toUpperCase(),
+            style: CsTextStyle.button.copyWith(
               color: textColor,
-              fontSize: textSize,
-              fontWeight: CsFontWeight.medium,
+              // fontSize: textSize,
+              fontWeight: CsFontWeight.semiBold,
             ),
           ),
         ),

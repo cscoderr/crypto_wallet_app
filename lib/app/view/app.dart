@@ -5,7 +5,8 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-import 'package:crypto_wallet/app/app_router.dart';
+import 'package:crypto_wallet/app/app.dart';
+import 'package:crypto_wallet/domain/repositories/phrase_repository.dart';
 import 'package:crypto_wallet/presentation/authentication/seed_phrase/cubit/seed_phrase_cubit.dart';
 import 'package:cs_ui/cs_ui.dart';
 import 'package:flutter/material.dart';
@@ -13,15 +14,34 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'package:flutter_localizations/flutter_localizations.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
+  const App({
+    Key? key,
+    required this.phraseRepository,
+  }) : super(key: key);
+
+  final PhraseRepository phraseRepository;
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        BlocProvider(create: (context) => SeedPhraseCubit()),
+        RepositoryProvider<PhraseRepository>(
+          create: (_) => phraseRepository,
+        ),
       ],
-      child: const _App(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => SeedPhraseCubit(
+              phraseRepository: phraseRepository,
+            ),
+          ),
+          BlocProvider(
+            create: (context) => AppCubit(phraseRepository: phraseRepository),
+          ),
+        ],
+        child: const _App(),
+      ),
     );
   }
 }
@@ -45,7 +65,7 @@ class _App extends StatelessWidget {
       //   GlobalMaterialLocalizations.delegate,
       // ],
       // supportedLocales: AppLocalizations.supportedLocales,
-      initialRoute: WalletPages.landing,
+      initialRoute: WalletPages.splash,
       onGenerateRoute: AppRouter.onRouteGenerate,
     );
   }

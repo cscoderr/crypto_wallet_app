@@ -8,6 +8,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "30.0.0"
+  aes_crypt:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: e84fdaea072c7f14b346501efde4564262f6eb0f
+      url: "https://github.com/tommydprogrammer/aes_crypt.git"
+    source: git
+    version: "0.1.1"
   analyzer:
     dependency: transitive
     description:
@@ -22,6 +31,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.3.0"
+  asn1lib:
+    dependency: transitive
+    description:
+      name: asn1lib
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   async:
     dependency: transitive
     description:
@@ -155,6 +171,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  cryptography:
+    dependency: "direct main"
+    description:
+      name: cryptography
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.5"
+  cryptography_flutter:
+    dependency: "direct main"
+    description:
+      name: cryptography_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   cs_ui:
     dependency: "direct main"
     description:
@@ -176,6 +206,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.1"
+  dotted_border:
+    dependency: "direct main"
+    description:
+      name: dotted_border
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0+1"
   ed25519_hd_key:
     dependency: "direct main"
     description:
@@ -183,6 +220,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.0"
+  encrypt:
+    dependency: "direct main"
+    description:
+      name: encrypt
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.1"
   equatable:
     dependency: "direct main"
     description:
@@ -223,6 +267,48 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.0.1"
+  flutter_secure_storage:
+    dependency: "direct main"
+    description:
+      name: flutter_secure_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.0.2"
+  flutter_secure_storage_linux:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_linux
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
+  flutter_secure_storage_macos:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_macos
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
+  flutter_secure_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
+  flutter_secure_storage_web:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
+  flutter_secure_storage_windows:
+    dependency: transitive
+    description:
+      name: flutter_secure_storage_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.2"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -444,7 +530,7 @@ packages:
     source: hosted
     version: "4.4.0"
   pin_code_fields:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: pin_code_fields
       url: "https://pub.dartlang.org"
@@ -688,4 +774,4 @@ packages:
     version: "3.1.0"
 sdks:
   dart: ">=2.16.0 <3.0.0"
-  flutter: ">=2.0.0"
+  flutter: ">=2.5.0"

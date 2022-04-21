@@ -23,7 +23,7 @@ class InputBox extends StatelessWidget {
       this.inputType,
       this.isPassword = false,
       this.raduis = 10.0,
-      this.borderSide = const BorderSide(color: Color(0xFFF6F6F6)),
+      this.borderSide = const BorderSide(color: CsColors.grey),
       this.iconSize = 24.0,
       this.isWritable = true,
       this.enablePrefix = true,
@@ -121,7 +121,7 @@ class InputBox extends StatelessWidget {
       ),
       decoration: InputDecoration(
         hintStyle: CsTextStyle.overline.copyWith(
-          color: CsColors.primaryText.withOpacity(0.7),
+          color: CsColors.primaryText.withOpacity(0.4),
           fontWeight: CsFontWeight.medium,
         ),
         counterText: '',
