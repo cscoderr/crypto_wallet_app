@@ -7,7 +7,7 @@
 
 import 'package:crypto_wallet/app/app.dart';
 import 'package:crypto_wallet/bootstrap.dart';
-import 'package:crypto_wallet/data/repositories/phrase_repository_impl.dart';
+import 'package:crypto_wallet/data/repositories/repositories.dart';
 import 'package:cryptography_flutter/cryptography_flutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -17,6 +17,7 @@ void main() {
   bootstrap(
     () => App(
       phraseRepository: PhraseRepositoryImpl(storage: storage),
+      contractRepository: ContractRepositoryImpl(),
     ),
   );
 }

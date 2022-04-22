@@ -6,6 +6,7 @@
 // https://opensource.org/licenses/MIT.
 
 import 'package:crypto_wallet/app/app.dart';
+import 'package:crypto_wallet/domain/repositories/contract_repository.dart';
 import 'package:crypto_wallet/domain/repositories/phrase_repository.dart';
 import 'package:crypto_wallet/presentation/authentication/seed_phrase/cubit/seed_phrase_cubit.dart';
 import 'package:cs_ui/cs_ui.dart';
@@ -17,9 +18,11 @@ class App extends StatelessWidget {
   const App({
     Key? key,
     required this.phraseRepository,
+    required this.contractRepository,
   }) : super(key: key);
 
   final PhraseRepository phraseRepository;
+  final ContractRepository contractRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +30,9 @@ class App extends StatelessWidget {
       providers: [
         RepositoryProvider<PhraseRepository>(
           create: (_) => phraseRepository,
+        ),
+        RepositoryProvider<ContractRepository>(
+          create: (_) => contractRepository,
         ),
       ],
       child: MultiBlocProvider(

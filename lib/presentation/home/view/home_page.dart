@@ -128,13 +128,19 @@ class HomeView extends StatelessWidget {
                         );
                   },
                 ),
-                const ActionCircle(
+                ActionCircle(
                   icon: Icons.call_received,
                   text: 'Receive',
+                  onTap: () {
+                    context.read<HomeCubit>().getTokenSymbol();
+                  },
                 ),
-                const ActionCircle(
+                ActionCircle(
                   icon: Icons.swap_horiz,
                   text: 'Swap',
+                  onTap: () {
+                    context.read<HomeCubit>().getTokenDecimals();
+                  },
                 ),
               ],
             ),
@@ -261,83 +267,97 @@ class HomeView extends StatelessWidget {
       (_) {
         return WillPopScope(
           onWillPop: () async => false,
-          child: Container(
-            height: 450,
-            padding: const EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 20,
-            ),
-            decoration: const BoxDecoration(
-              color: CsColors.white,
-            ),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Text(
-                    'Import Tokens',
-                    style: CsTextStyle.headline2.copyWith(
-                      fontWeight: CsFontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: context.minBlockVertical * 2),
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: Colors.yellow.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.dangerous_outlined,
-                          color: CsColors.primary,
-                        ),
-                        SizedBox(width: context.minBlockHorizontal * 2),
-                        Expanded(
-                          child: Text(
-                            '''Anyone can create a token, including creating fake versions of existing tokens.''',
-                            style: CsTextStyle.overline.copyWith(
-                              color: Colors.black,
-                              fontWeight: CsFontWeight.regular,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: context.minBlockVertical * 3),
-                  const InputBox(
-                    hintText: 'Contract Address',
-                  ),
-                  SizedBox(height: context.minBlockVertical * 3),
-                  const InputBox(
-                    hintText: 'Token Symbol',
-                  ),
-                  SizedBox(height: context.minBlockVertical * 3),
-                  const InputBox(
-                    hintText: 'Token Decimal',
-                  ),
-                  SizedBox(height: context.minBlockVertical * 4),
-                  SolidButton(
-                    text: 'Add Token',
-                    onPressed: () {},
-                  ),
-                  SizedBox(height: context.minBlockVertical * 4),
-                ],
-              ),
-            ),
-          ),
+          child: const AddTokenBottomSheet(),
         );
       },
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(40),
         ),
       ),
+      backgroundColor: Colors.transparent,
       elevation: 5,
       clipBehavior: Clip.hardEdge,
+    );
+  }
+}
+
+class AddTokenBottomSheet extends StatelessWidget {
+  const AddTokenBottomSheet({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 450,
+      padding: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+        top: 20,
+      ),
+      decoration: const BoxDecoration(
+        color: CsColors.white,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(40),
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text(
+              'Import Tokens',
+              style: CsTextStyle.headline2.copyWith(
+                fontWeight: CsFontWeight.bold,
+              ),
+            ),
+            SizedBox(height: context.minBlockVertical * 2),
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Colors.yellow.withOpacity(0.3),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.dangerous_outlined,
+                    color: CsColors.primary,
+                  ),
+                  SizedBox(width: context.minBlockHorizontal * 2),
+                  Expanded(
+                    child: Text(
+                      '''Anyone can create a token, including creating fake versions of existing tokens.''',
+                      style: CsTextStyle.overline.copyWith(
+                        color: Colors.black,
+                        fontWeight: CsFontWeight.regular,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: context.minBlockVertical * 3),
+            const InputBox(
+              hintText: 'Contract Address',
+            ),
+            SizedBox(height: context.minBlockVertical * 3),
+            const InputBox(
+              hintText: 'Token Symbol',
+            ),
+            SizedBox(height: context.minBlockVertical * 3),
+            const InputBox(
+              hintText: 'Token Decimal',
+            ),
+            SizedBox(height: context.minBlockVertical * 4),
+            SolidButton(
+              text: 'Add Token',
+              onPressed: () {},
+            ),
+            SizedBox(height: context.minBlockVertical * 4),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -35,6 +35,7 @@ class HomeCubit extends Cubit<HomeState> {
   ContractEvent _transferEvent() => _contract.event('Transfer');
   ContractFunction _balanceFunction() => _contract.function('balanceOf');
   ContractFunction _tokenSymbol() => _contract.function('symbol');
+  ContractFunction _tokenDecimals() => _contract.function('decimals');
   ContractFunction _sendFunction() => _contract.function('transfer');
 
   Future<void> initialiseClient() async {
@@ -59,6 +60,24 @@ class HomeCubit extends Cubit<HomeState> {
       contract: _contract,
       function: _balanceFunction(),
       params: <dynamic>[ethAddress],
+    );
+    print(response.first);
+  }
+
+  Future<void> getTokenSymbol() async {
+    final response = await _web3client.call(
+      contract: _contract,
+      function: _tokenSymbol(),
+      params: <dynamic>[],
+    );
+    print(response.first);
+  }
+
+  Future<void> getTokenDecimals() async {
+    final response = await _web3client.call(
+      contract: _contract,
+      function: _tokenDecimals(),
+      params: <dynamic>[],
     );
     print(response.first);
   }

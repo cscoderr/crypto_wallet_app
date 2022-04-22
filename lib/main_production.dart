@@ -17,6 +17,7 @@ void main() {
   bootstrap(
     () => App(
       phraseRepository: PhraseRepositoryImpl(storage: storage),
+      contractRepository: ContractRepositoryImpl(),
     ),
   );
 }
