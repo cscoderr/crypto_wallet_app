@@ -30,7 +30,7 @@ $ flutter run --flavor production --target lib/main_production.dart
 ## 📸 Screen Shots
 
 <p float="left">
-<img src="https://github.com/tommydprogrammer/crypto_wallet_app/blob/master/screenshots/1.png?raw=true" width="200">
+<img src="https://github.com/tommydprogrammer/crypto_wallet_app/blob/master/screenshots/import_token.png?raw=true" width="200">
 </p>
 
 
