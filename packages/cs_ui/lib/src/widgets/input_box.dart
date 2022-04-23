@@ -9,7 +9,7 @@ class InputBox extends StatelessWidget {
   ///@macro TextBox Constructor
   const InputBox(
       {Key? key,
-      // this.controller,
+      this.controller,
       this.validator,
       this.hintText,
       this.labelText,
@@ -35,7 +35,7 @@ class InputBox extends StatelessWidget {
       : super(key: key);
 
   ///@macro TextEditingController fields
-  // final TextEditingController? controller;
+  final TextEditingController? controller;
 
   ///@macro Validator fields
   final FormFieldValidator<String>? validator;
@@ -109,7 +109,8 @@ class InputBox extends StatelessWidget {
       validator: validator,
       inputFormatters: inputFormat,
       onChanged: onChanged,
-      initialValue: value,
+      controller: controller,
+      // initialValue: value,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: inputType,
       maxLength: maxLength,

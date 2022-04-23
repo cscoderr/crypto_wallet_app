@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:crypto_wallet/app/app.dart';
-import 'package:crypto_wallet/domain/repositories/phrase_repository.dart';
+import 'package:crypto_wallet/domain/repositories/repositories.dart';
 import 'package:crypto_wallet/presentation/home/home.dart';
 import 'package:cs_ui/cs_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,11 +17,14 @@ class HomePage extends StatelessWidget {
     final app = context.watch<AppCubit>().state;
     return BlocProvider(
       create: (context) =>
-          HomeCubit(phraseRepository: context.read<PhraseRepository>())
-            ..initialiseClient()
-            ..initialiseContract('0xA9994FE94f94d453ad50498e2655F55334159952')
-            ..getEthBalance(app.wallet.publicKey ?? ''),
-      child: HomeView(),
+          HomeBloc(contractRepository: context.read<ContractRepository>())
+            ..add(GetEthBalanceEvent(app.wallet.publicKey ?? '')),
+      child: BlocProvider(
+        create: (context) => AddTokenCubit(
+          contractRepository: context.read<ContractRepository>(),
+        ),
+        child: HomeView(),
+      ),
     );
   }
 }
@@ -32,7 +36,6 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final home = context.read<HomeCubit>().state;
     final app = context.watch<AppCubit>().state;
     return Scaffold(
       key: _scaffoldKey,
@@ -74,8 +77,17 @@ class HomeView extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(height: context.minBlockVertical * 3),
-            BlocBuilder<HomeCubit, HomeState>(
+            BlocBuilder<HomeBloc, HomeState>(
               builder: (context, state) {
+                if (state.ethBalance == null) {
+                  return Text(
+                    '0.00',
+                    style: CsTextStyle.headline1.copyWith(
+                      fontSize: 40,
+                    ),
+                  );
+                }
+                print(state.ethBalance!.getInWei);
                 return Text(
                   _convertToEth(state.ethBalance!.getInWei),
                   style: CsTextStyle.headline1.copyWith(
@@ -117,30 +129,23 @@ class HomeView extends StatelessWidget {
             ),
             SizedBox(height: context.minBlockVertical * 5),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                ActionCircle(
+                ActionButton(
                   icon: Icons.call_made,
                   text: 'Send',
-                  onTap: () {
-                    context.read<HomeCubit>().sendEth(
-                          app.wallet.privateKey ?? '',
-                        );
-                  },
+                  onTap: () => showSendTokenBottomSheet(context),
                 ),
-                ActionCircle(
-                  icon: Icons.call_received,
-                  text: 'Receive',
-                  onTap: () {
-                    context.read<HomeCubit>().getTokenSymbol();
-                  },
-                ),
-                ActionCircle(
+                if (1 == 2)
+                  ActionButton(
+                    icon: Icons.call_received,
+                    text: 'Receive',
+                    onTap: () {},
+                  ),
+                ActionButton(
                   icon: Icons.swap_horiz,
                   text: 'Swap',
-                  onTap: () {
-                    context.read<HomeCubit>().getTokenDecimals();
-                  },
+                  onTap: () => showSwapTokenBottomSheet(context),
                 ),
               ],
             ),
@@ -258,146 +263,31 @@ class HomeView extends StatelessWidget {
   }
 
   String _convertToEth(BigInt wei) {
-    final eth = (wei / BigInt.from(1 * pow(10, 18))).toStringAsFixed(2);
+    final eth = (wei / BigInt.from(1 * pow(10, 18))).toStringAsFixed(3);
     return '$eth ETH';
   }
 
   void showAddTokenBottomSheet(BuildContext context) {
-    _scaffoldKey.currentState!.showBottomSheet<dynamic>(
-      (_) {
-        return WillPopScope(
-          onWillPop: () async => false,
-          child: const AddTokenBottomSheet(),
-        );
-      },
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(40),
-        ),
-      ),
+    showMaterialModalBottomSheet<void>(
+      context: context,
       backgroundColor: Colors.transparent,
-      elevation: 5,
-      clipBehavior: Clip.hardEdge,
+      builder: (context) => AddTokenBottomSheet(),
     );
   }
-}
 
-class AddTokenBottomSheet extends StatelessWidget {
-  const AddTokenBottomSheet({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 450,
-      padding: const EdgeInsets.only(
-        left: 20,
-        right: 20,
-        top: 20,
-      ),
-      decoration: const BoxDecoration(
-        color: CsColors.white,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(40),
-        ),
-      ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Text(
-              'Import Tokens',
-              style: CsTextStyle.headline2.copyWith(
-                fontWeight: CsFontWeight.bold,
-              ),
-            ),
-            SizedBox(height: context.minBlockVertical * 2),
-            Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.yellow.withOpacity(0.3),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.dangerous_outlined,
-                    color: CsColors.primary,
-                  ),
-                  SizedBox(width: context.minBlockHorizontal * 2),
-                  Expanded(
-                    child: Text(
-                      '''Anyone can create a token, including creating fake versions of existing tokens.''',
-                      style: CsTextStyle.overline.copyWith(
-                        color: Colors.black,
-                        fontWeight: CsFontWeight.regular,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: context.minBlockVertical * 3),
-            const InputBox(
-              hintText: 'Contract Address',
-            ),
-            SizedBox(height: context.minBlockVertical * 3),
-            const InputBox(
-              hintText: 'Token Symbol',
-            ),
-            SizedBox(height: context.minBlockVertical * 3),
-            const InputBox(
-              hintText: 'Token Decimal',
-            ),
-            SizedBox(height: context.minBlockVertical * 4),
-            SolidButton(
-              text: 'Add Token',
-              onPressed: () {},
-            ),
-            SizedBox(height: context.minBlockVertical * 4),
-          ],
-        ),
-      ),
+  void showSendTokenBottomSheet(BuildContext context) {
+    showMaterialModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const SendBottomSheet(),
     );
   }
-}
 
-class ActionCircle extends StatelessWidget {
-  const ActionCircle({
-    Key? key,
-    required this.icon,
-    required this.text,
-    this.onTap,
-  }) : super(key: key);
-
-  final IconData icon;
-  final String text;
-  final VoidCallback? onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        children: [
-          CircleAvatar(
-            backgroundColor: CsColors.primary,
-            radius: 30,
-            child: Icon(
-              icon,
-              color: CsColors.white,
-              size: 30,
-            ),
-          ),
-          Text(
-            text,
-            style: CsTextStyle.overline.copyWith(
-              fontSize: 18,
-              fontWeight: CsFontWeight.medium,
-            ),
-          ),
-        ],
-      ),
+  void showSwapTokenBottomSheet(BuildContext context) {
+    showMaterialModalBottomSheet<void>(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const SwapBottomSheet(),
     );
   }
 }

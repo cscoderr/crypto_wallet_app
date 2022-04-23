@@ -34,5 +34,6 @@ class AddTokenState extends Equatable {
   final String tokenSymbol;
   final String tokenDecimal;
   @override
-  List<Object?> get props => [];
+  List<Object?> get props =>
+      [status, contractAddress, tokenSymbol, tokenDecimal];
 }

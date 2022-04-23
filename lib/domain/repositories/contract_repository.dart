@@ -9,9 +9,12 @@ abstract class ContractRepository {
 
   Future<String> getTokenBalance(String contractAddress, String publicKey);
 
-  Future<EtherAmount> getEthBalance(String publicKey);
+  Future<List> getTransactions(String contractAddress);
 
-  Future<String> sendEth(String privateKey);
+  Stream<EtherAmount> getEthBalance(String publicKey);
+
+  Future<String> sendEth(
+      {required String privateKey, required String to, required BigInt amount});
 
   void dispose();
 }
