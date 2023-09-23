@@ -4,16 +4,17 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: ">=2.16.0 <3.0.0"
+  sdk: ">=3.1.1 <4.0.0"
 
 dependencies:
-  aes_crypt:
-    git:
-      url: https://github.com/tommydprogrammer/aes_crypt.git
+  # aes_crypt:
+  #   git:
+  #     url: https://github.com/cscoderr/aes_crypt.git
+  aes_crypt_null_safe: ^2.0.2
   bip39: ^1.0.6
   bloc: ^8.0.3
   cryptography: ^2.0.5
-  cryptography_flutter: ^2.0.2
+  cryptography_flutter: ^2.3.2
   cs_ui:
     path: packages/cs_ui
   dotted_border: ^2.0.0+1
@@ -31,7 +32,7 @@ dependencies:
   hex: ^0.2.0
   http: ^0.13.4
   intl: ^0.17.0
-  modal_bottom_sheet: ^2.0.1
+  modal_bottom_sheet: ^3.0.0-pre
   pin_code_fields: ^7.4.0
   web3dart: ^2.3.5
 

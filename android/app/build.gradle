@@ -1,3 +1,4 @@
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -50,7 +51,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.example.verygoodcore.crypto_wallet"
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -103,7 +104,7 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
-            useProguard true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt')
         }
         debug {
